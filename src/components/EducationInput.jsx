@@ -6,6 +6,7 @@ export const EducationInputs = ({
 }) => {
   return (
     <div key={index}>
+      <h2>Educational Information</h2>
       <div className="form-group">
         <label htmlFor={`university${index}`}>University:</label>
         <input

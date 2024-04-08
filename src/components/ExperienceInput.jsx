@@ -6,6 +6,7 @@ export const ExperienceInputs = ({
 }) => {
   return (
     <div key={index}>
+      <h2>Company Experience Information</h2>
       <div className="form-group">
         <label htmlFor={`company${index}`}>Company:</label>
         <input
@@ -45,7 +46,7 @@ export const ExperienceInputs = ({
       <div className="form-group">
         <label htmlFor={`joining${index}`}>Joining Date:</label>
         <input
-          type="date"
+          type="text"
           id={`joining${index}`}
           name={`joining${index}`}
           value={experience.joining}
@@ -56,7 +57,7 @@ export const ExperienceInputs = ({
       <div className="form-group">
         <label htmlFor={`endDate${index}`}>End Date:</label>
         <input
-          type="date"
+          type="text"
           id={`endDate${index}`}
           name={`endDate${index}`}
           value={experience.endDate}

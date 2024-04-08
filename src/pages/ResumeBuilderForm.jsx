@@ -77,7 +77,7 @@ export const ResumeBuilderForm = () => {
       <p style="font-family: Times New Roman; font-size: 14px; color: #666;">${
         formData.description
       }</p>
-      <h1 style="font-family: Arial; font-size: 20px; color: #000;">EDUCATION AND CERTIFICATIONS</h1>
+      <h1 style="font-family: Arial; font-size: 20px; color: #000;">EDUCATION</h1>
       <hr style="border: 1px solid #000;">
       ${formData.educations
         .map(
@@ -90,7 +90,7 @@ export const ResumeBuilderForm = () => {
       `
         )
         .join("")}
-      <h1 style="font-family: Arial; font-size: 20px; color: #000;">PROFESSIONAL EXPERIENCE</h1>
+      <h1 style="font-family: Arial; font-size: 20px; color: #000;">EXPERIENCE</h1>
       <hr style="border: 1px solid #000;">
       ${formData.exprience
         .map(
@@ -190,12 +190,24 @@ export const ResumeBuilderForm = () => {
     e.preventDefault();
     try {
       // Submit form data to generate updated HTML content
-      const response = await axios.post("/api/generate-docx", formData);
-      setHtmlContent(response.data);
+      const response = await axios.post("/api/generate-docx", formData, {
+        responseType: "blob",
+      }); // Set responseType to 'blob' to receive a Blob object
+      const blob = new Blob([response.data], {
+        type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      }); // Create a Blob from the received data
+      const url = window.URL.createObjectURL(blob); // Create a URL for the Blob
+      const link = document.createElement("a"); // Create a temporary link element
+      link.href = url; // Set the link's href to the URL of the Blob
+      link.setAttribute("download", "resume.docx"); // Set the download attribute to specify the file name
+      document.body.appendChild(link); // Append the link to the document body
+      link.click(); // Simulate a click on the link to start the download
+      document.body.removeChild(link); // Remove the link from the document body after the download is completed
     } catch (error) {
       console.error("Error generating DOCX template:", error);
     }
   };
+
   const nextSection = () => {
     setSection(section + 1);
   };
@@ -231,10 +243,10 @@ export const ResumeBuilderForm = () => {
 
   return (
     <div className="container">
-      <h2>Resume Builder</h2>
-      <div className="row ">
-        <div className="col-md-6 form-container">
-          <form onSubmit={handleSubmit}>
+      <h2 className="text-center mt-4 mb-5">Resume Builder</h2>
+      <div className="row">
+        <div className="col-md-6">
+          <form onSubmit={handleSubmit} className="form-container">
             {section === 1 && (
               <>
                 <div className="row">
@@ -269,10 +281,9 @@ export const ResumeBuilderForm = () => {
                 </div>
                 <div className="row">
                   <div className="col-md-6">
-                    {" "}
                     <div className="form-group">
                       <label htmlFor="professionalTitle">
-                        Professional Title
+                        Professional Title:
                       </label>
                       <input
                         type="text"
@@ -302,7 +313,6 @@ export const ResumeBuilderForm = () => {
                 </div>
                 <div className="row">
                   <div className="col-md-6">
-                    {" "}
                     <div className="form-group">
                       <label htmlFor="phone">Phone Number:</label>
                       <input
@@ -317,7 +327,6 @@ export const ResumeBuilderForm = () => {
                     </div>
                   </div>
                   <div className="col-md-6">
-                    {" "}
                     <div className="form-group">
                       <label htmlFor="linkedIn">LinkedIn Profile:</label>
                       <input
@@ -401,7 +410,7 @@ export const ResumeBuilderForm = () => {
                 ))}
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className="btn btn-primary mt-3"
                   onClick={addEducation}
                 >
                   Add Education
@@ -421,7 +430,7 @@ export const ResumeBuilderForm = () => {
                 ))}
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className="btn btn-primary mt-3"
                   onClick={addExperience}
                 >
                   Add Experience
@@ -441,7 +450,7 @@ export const ResumeBuilderForm = () => {
                 ))}
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className="btn btn-primary mt-3"
                   onClick={addProject}
                 >
                   Add Project
@@ -464,11 +473,11 @@ export const ResumeBuilderForm = () => {
                 </div>
               </>
             )}
-            <div className="form-group">
+            <div className="form-group mt-4">
               {section > 1 && (
                 <button
                   type="button"
-                  className="btn btn-primary"
+                  className="btn btn-secondary mr-2"
                   onClick={previousSection}
                 >
                   Previous
@@ -477,14 +486,14 @@ export const ResumeBuilderForm = () => {
               {section < 5 && (
                 <button
                   type="button"
-                  className="btn btn-primary ml-2"
+                  className="btn btn-primary"
                   onClick={nextSection}
                 >
                   Next
                 </button>
               )}
               {section === 5 && (
-                <button type="submit" className="btn btn-primary ml-2">
+                <button type="submit" className="btn btn-success ml-2">
                   Generate Resume
                 </button>
               )}
@@ -492,9 +501,14 @@ export const ResumeBuilderForm = () => {
           </form>
         </div>
         <div className="col-md-6">
-          <div
-            dangerouslySetInnerHTML={{ __html: generateHTMLContent() }}
-          ></div>
+          <div className="preview-container">
+            <div className="word-document">
+              <div
+                className="content"
+                dangerouslySetInnerHTML={{ __html: generateHTMLContent() }}
+              ></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

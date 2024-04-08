@@ -6,6 +6,7 @@ export const ProjectsInputs = ({
 }) => {
   return (
     <div key={index}>
+      <h2>Projects Information</h2>
       <div className="form-group">
         <label htmlFor={`projectTitle${index}`}>Project Title:</label>
         <input
