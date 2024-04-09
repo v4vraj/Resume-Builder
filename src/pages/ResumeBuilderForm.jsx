@@ -26,7 +26,7 @@ export const ResumeBuilderForm = () => {
     ],
     skills:
       "Detail oriented, Well-versed in Texas employment law, Excellent written and oral communication skills, Develops positive workplace relationships",
-    exprience: [
+    experience: [
       {
         company: "Jim's Widget Factory",
         role: "Human Resources Manager",
@@ -71,7 +71,7 @@ export const ResumeBuilderForm = () => {
       }</p>
       <p style="font-family: Arial; font-size: 14px; color: #333;">${
         formData.phone
-      } · ${formData.email} · ${formData.linkedIn} ${formData.city}, ${
+      } · ${formData.email} · ${formData.linkedIn} · ${formData.city}, ${
       formData.state
     }, ${formData.country}</p>
       <p style="font-family: Times New Roman; font-size: 14px; color: #666;">${
@@ -92,15 +92,15 @@ export const ResumeBuilderForm = () => {
         .join("")}
       <h1 style="font-family: Arial; font-size: 20px; color: #000;">EXPERIENCE</h1>
       <hr style="border: 1px solid #000;">
-      ${formData.exprience
+      ${formData.experience
         .map(
-          (exprience, index) => `
+          (experience, index) => `
       <p style="font-family: Arial; font-size: 14px; color: #333;">
-      <span>${exprience.company}</span>
-      <span style="float: right;">${exprience.joining} – ${exprience.endDate}</span>
+      <span>${experience.company}</span>
+      <span style="float: right;">${experience.joining} – ${experience.endDate}</span>
     </p>
-      <p style="font-family: Arial; font-size: 14px; color: #333;">${exprience.role}</p>
-      <p style="font-family: Arial; font-size: 14px; color: #333;">${exprience.experienceDescription}</p>
+      <p style="font-family: Arial; font-size: 14px; color: #333;">${experience.role}</p>
+      <p style="font-family: Arial; font-size: 14px; color: #333;">${experience.experienceDescription}</p>
       `
         )
         .join("")} 
@@ -155,8 +155,8 @@ export const ResumeBuilderForm = () => {
   const addExperience = () => {
     setFormData({
       ...formData,
-      exprience: [
-        ...formData.exprience,
+      experience: [
+        ...formData.experience,
         {
           company: "",
           role: "",
@@ -175,9 +175,9 @@ export const ResumeBuilderForm = () => {
   };
 
   const removeExperience = (index) => {
-    const updatedExperience = [...formData.exprience];
+    const updatedExperience = [...formData.experience];
     updatedExperience.splice(index, 1);
-    setFormData({ ...formData, exprience: updatedExperience });
+    setFormData({ ...formData, experience: updatedExperience });
   };
 
   const removeProject = (index) => {
@@ -224,9 +224,9 @@ export const ResumeBuilderForm = () => {
 
   const handleExperienceChange = (e, index, field) => {
     const { value } = e.target;
-    const updatedExperience = [...formData.exprience];
+    const updatedExperience = [...formData.experience];
     updatedExperience[index][field] = value;
-    setFormData({ ...formData, exprience: updatedExperience });
+    setFormData({ ...formData, experience: updatedExperience });
   };
 
   const handleProjectChange = (e, index, field) => {
@@ -419,7 +419,7 @@ export const ResumeBuilderForm = () => {
             )}
             {section === 3 && (
               <>
-                {formData.exprience.map((experience, index) => (
+                {formData.experience.map((experience, index) => (
                   <ExperienceInputs
                     key={index}
                     experience={experience}
