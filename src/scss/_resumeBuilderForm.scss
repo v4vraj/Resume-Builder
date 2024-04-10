@@ -1,7 +1,7 @@
 .form-container {
   padding: 20px;
-  background-color: #fff; // White background for the document
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); // Minor black box shadow
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   .form-group {
     margin-bottom: 20px;
 
@@ -18,7 +18,7 @@
       transition: border-color 0.3s ease;
 
       &:focus {
-        border-color: #007bff; // Focus border color
+        border-color: #007bff;
         outline: none;
       }
     }
@@ -76,29 +76,29 @@
 
 .preview-container {
   padding: 20px;
-  background-color: #fff; // White background for the document
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); // Minor black box shadow
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
   height: 650px;
   overflow: auto;
 
   &::-webkit-scrollbar {
-    width: 10px; // Width of the scrollbar
+    width: 10px;
   }
 
   &::-webkit-scrollbar-track {
-    background: #f1f1f1; // Track color
+    background: #f1f1f1;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #888; // Thumb color
-    border-radius: 5px; // Border radius of the thumb
+    background: #888;
+    border-radius: 5px;
   }
 
   .word-document {
     padding: 20px;
-    background-color: #fff; // White background for the document
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); // Minor black box shadow
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 
     .header {
       margin-bottom: 20px;

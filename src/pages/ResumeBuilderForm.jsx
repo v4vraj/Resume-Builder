@@ -61,7 +61,6 @@ export const ResumeBuilderForm = () => {
     fetchHtmlContent();
   }, []);
   const generateHTMLContent = () => {
-    // Generate HTML content dynamically based on form data
     return `
       <p style="font-family: Arial; font-size: 28px; color: #000;">${
         formData.firstName
@@ -69,7 +68,7 @@ export const ResumeBuilderForm = () => {
       <p style="font-family: Arial; font-size: 16px; color: #000;">${
         formData.professionalTitle
       }</p>
-      <p style="font-family: Arial; font-size: 14px; color: #333;">${
+      <p style="font-family: Arial; font-size: 14px; color: #000;">${
         formData.phone
       } · ${formData.email} · ${formData.linkedIn} · ${formData.city}, ${
       formData.state
@@ -83,7 +82,7 @@ export const ResumeBuilderForm = () => {
         .map(
           (education, index) => `
         <p style="font-family: Arial; font-size: 14px; color: #333;">
-          <span>${education.university}</span>
+          <strong>${education.university}</strong>
           <span style="float: right;">${education.year}</span>
         </p>
         <p style="font-family: Arial; font-size: 14px; color: #333;">${education.degree}</p>
@@ -96,9 +95,9 @@ export const ResumeBuilderForm = () => {
         .map(
           (experience, index) => `
       <p style="font-family: Arial; font-size: 14px; color: #333;">
-      <span>${experience.company}</span>
-      <span style="float: right;">${experience.joining} – ${experience.endDate}</span>
-    </p>
+        <strong>${experience.company}</strong>
+        <span style="float: right;">${experience.joining} – ${experience.endDate}</span>
+      </p>
       <p style="font-family: Arial; font-size: 14px; color: #333;">${experience.role}</p>
       <p style="font-family: Arial; font-size: 14px; color: #333;">${experience.experienceDescription}</p>
       `
@@ -109,10 +108,10 @@ export const ResumeBuilderForm = () => {
       ${formData.projects
         .map(
           (project, index) => ` 
-      <p style="font-family: Arial; font-size: 14px; color: #333;">
-      <span>${project.projectTitle} |</span>
-      <span">${project.githubLink}</span>
-    </p>
+          <p style="font-family: Arial; font-size: 14px; color: #333;">
+          <span>${project.projectTitle}</span> |
+          <span><a href="${project.githubLink}" style="color: #007bff;">${project.githubLink}</a></span>
+      </p>
       <p style="font-family: Arial; font-size: 14px; color: #333;">${project.projectDescription}</p>
       `
         )
@@ -125,9 +124,9 @@ export const ResumeBuilderForm = () => {
           .map((skill) => `<li>${skill.trim()}</li>`)
           .join("")}
       </ul>
-     
     `;
   };
+
   const addEducation = () => {
     setFormData({
       ...formData,
@@ -189,20 +188,19 @@ export const ResumeBuilderForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Submit form data to generate updated HTML content
       const response = await axios.post("/api/generate-docx", formData, {
         responseType: "blob",
-      }); // Set responseType to 'blob' to receive a Blob object
+      });
       const blob = new Blob([response.data], {
         type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      }); // Create a Blob from the received data
-      const url = window.URL.createObjectURL(blob); // Create a URL for the Blob
-      const link = document.createElement("a"); // Create a temporary link element
-      link.href = url; // Set the link's href to the URL of the Blob
-      link.setAttribute("download", "resume.docx"); // Set the download attribute to specify the file name
-      document.body.appendChild(link); // Append the link to the document body
-      link.click(); // Simulate a click on the link to start the download
-      document.body.removeChild(link); // Remove the link from the document body after the download is completed
+      });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "resume.docx");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     } catch (error) {
       console.error("Error generating DOCX template:", error);
     }
@@ -249,6 +247,7 @@ export const ResumeBuilderForm = () => {
           <form onSubmit={handleSubmit} className="form-container">
             {section === 1 && (
               <>
+                <h2>Personal Information</h2>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">

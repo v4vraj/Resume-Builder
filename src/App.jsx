@@ -12,6 +12,7 @@ function App() {
     <>
       <Router>
         <Routes>
+          <Route path="/" element={<Navigate to="/form" />} />
           <Route path="/form" element={<ResumeBuilderForm />} />
         </Routes>
       </Router>
